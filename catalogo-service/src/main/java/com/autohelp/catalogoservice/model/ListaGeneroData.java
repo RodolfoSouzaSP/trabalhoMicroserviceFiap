@@ -1,8 +1,8 @@
-package com.autohelp.catalogoservice.controller;
+package com.autohelp.catalogoservice.model;
 
 public class ListaGeneroData {
 
-	public long IdFilme;
+	public long idFilme;
 	
 	public String titulo;
 	

@@ -1,0 +1,1 @@
+database : "spring.datasource.url=jdbc:mysql://localhost:3306/catalogo-prd?useTimezone=true&serverTimezone=UTC"

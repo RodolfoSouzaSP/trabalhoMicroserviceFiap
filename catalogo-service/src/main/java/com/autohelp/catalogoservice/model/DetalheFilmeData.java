@@ -1,4 +1,4 @@
-package com.autohelp.catalogoservice.controller;
+package com.autohelp.catalogoservice.model;
 
 public class DetalheFilmeData {
 	
