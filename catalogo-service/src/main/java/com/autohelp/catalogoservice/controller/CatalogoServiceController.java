@@ -1,7 +1,7 @@
 package com.autohelp.catalogoservice.controller;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autohelp.catalogoservice.model.DetalheFilmeData;
 import com.autohelp.catalogoservice.model.Filme;
 import com.autohelp.catalogoservice.model.FilmeData;
+import com.autohelp.catalogoservice.model.FilmeFuturo;
 import com.autohelp.catalogoservice.model.ListaFilmeFuturoData;
 import com.autohelp.catalogoservice.model.ListaGeneroData;
 import com.autohelp.catalogoservice.model.ListaPesquisaPalavraChaveData;
-import com.autohelp.catalogoservice.repository.CatalogoRepository;
+import com.autohelp.catalogoservice.repository.CatalogoRepositoryFilme;
+import com.autohelp.catalogoservice.repository.CatalogoRepositoryFilmeFuturo;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +33,8 @@ import io.swagger.annotations.ApiOperation;
 public class CatalogoServiceController {
 
 	@Autowired
-	CatalogoRepository catalogoRepository;
+	CatalogoRepositoryFilme catalogoRepositoryFilme;
+	CatalogoRepositoryFilmeFuturo catalogoRepositoryFilmeFuturo;
 
 	@RequestMapping(value = "/listaGenero/{valor}", method = RequestMethod.GET)
 	@ApiOperation(value = "Método para pesquisa de filme por gênero")
@@ -39,7 +43,7 @@ public class CatalogoServiceController {
 
 		List<ListaGeneroData> listaGenero = new ArrayList<ListaGeneroData>();
 
-		filme = catalogoRepository.findByGenero(genero);
+		filme = catalogoRepositoryFilme.findByGenero(genero);
 
 		if (filme != null) {
 			for (Filme item : filme) {
@@ -63,7 +67,7 @@ public class CatalogoServiceController {
 		List<Filme> filme = new ArrayList<Filme>();
 		List<ListaPesquisaPalavraChaveData> listaPalavraChave = new ArrayList<ListaPesquisaPalavraChaveData>();
 
-		filme = catalogoRepository.findByTitulo(chave);
+		filme = catalogoRepositoryFilme.findByTitulo(chave);
 
 		if (filme != null) {
 			for (Filme item : filme) {
@@ -82,6 +86,7 @@ public class CatalogoServiceController {
 
 	}
 
+	@HystrixCommand(fallbackMethod = "reliable")
 	@RequestMapping(value = "/visualizarDetalheFilme/{valor}", method = RequestMethod.GET)
 	@ApiOperation(value = "Método para mostrar os detalhes do filme")
 	public DetalheFilmeData visualizarDetalheFilme(@PathVariable("valor") long idFilme) {
@@ -90,7 +95,7 @@ public class CatalogoServiceController {
 
 		Filme filme = new Filme();
 
-		filme = catalogoRepository.findById(idFilme);
+		filme = catalogoRepositoryFilme.findById(idFilme);
 
 		if (filme != null) {
 			detalheFilme.ano = filme.getAno();
@@ -102,15 +107,27 @@ public class CatalogoServiceController {
 			detalheFilme.titulo = filme.getTitulo();
 			detalheFilme.url = filme.getUrl();
 		}
+		else
+		{
+			throw new RuntimeException();
+		}
 
 		return detalheFilme;
 	}
 
-	public void MarcarParaVerNoFuturo(long idFilme) {
-		// Método para marcar o filme para visualização futura
-
+	@RequestMapping(value = "/marcarParaVerNoFuturo/{valor1}/{valor2}", method = RequestMethod.GET)
+	@ApiOperation(value = "Método para marcar o filme para visualização futura")	
+	public void marcarParaVerNoFuturo(@PathVariable("valor1") long idUsuario, @PathVariable("valor2") long idFilme) {
+		
+		FilmeFuturo filmeFuturo = new FilmeFuturo();
+		
+		filmeFuturo.setIdUsuario(idUsuario);
+		filmeFuturo.setIdFilme(idFilme);
+		
+		catalogoRepositoryFilmeFuturo.save(filmeFuturo);
 	}
 
+	
 	public List<ListaFilmeFuturoData> listaFilmeVerFuturo(int idUsuario) {
 		// Método para retornar a lista de filmes para visualização futura do usuário
 		List<ListaFilmeFuturoData> listaFilmeFuturo = new ArrayList<ListaFilmeFuturoData>();
@@ -132,6 +149,22 @@ public class CatalogoServiceController {
 		filme.setTitulo(dado.titulo);
 		filme.setUrl(dado.url);
 
-		catalogoRepository.save(filme);
+		catalogoRepositoryFilme.save(filme);
+	}
+	
+	public DetalheFilmeData reliable(long idFilme) {
+		
+		DetalheFilmeData detalheFilme = new DetalheFilmeData();
+		
+		detalheFilme.ano = 0;
+		detalheFilme.categoria = "";
+		detalheFilme.detalhe = "";
+		detalheFilme.duracao = "";
+		detalheFilme.genero = "";
+		detalheFilme.id = 0;
+		detalheFilme.titulo = "Serviço de localização indisponível";
+		detalheFilme.url = "";
+				
+		return detalheFilme;
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.autohelp.catalogoservice.model.Filme;
 
-public interface CatalogoRepository extends JpaRepository<Filme, Long> {
+public interface CatalogoRepositoryFilme extends JpaRepository<Filme, Long> {
 
 	Filme findById(long id);
 	
@@ -16,4 +16,5 @@ public interface CatalogoRepository extends JpaRepository<Filme, Long> {
 	
 	@Query(value = "SELECT * FROM tb_filme WHERE titulo like %?1% or detalhe like %?1%", nativeQuery = true)
 	List<Filme> findByTitulo(String chave);
+
 }
