@@ -17,5 +17,7 @@ public class DetalheFilmeData {
 	public String categoria; 
 	
 	public String url;
+	
+	public String observacao;
 
 }

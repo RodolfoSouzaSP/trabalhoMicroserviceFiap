@@ -1,7 +1,6 @@
 package com.autohelp.filmeassistidoservice.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TB_FilmeAssistido")
-public class FilmeAssistido {
+@Table(name="tb_filme_assistido")
+public class FilmeAssistido  implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;

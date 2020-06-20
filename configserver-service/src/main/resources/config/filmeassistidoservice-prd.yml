@@ -1,1 +1,1 @@
-database:"spring.datasource.url=jdbc:mysql://localhost:3306/filme-prd?useTimezone=true&serverTimezone=UTC"
+database : "jdbc:mysql://localhost:3306/filme?useTimezone=true&serverTimezone=UTC"

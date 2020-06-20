@@ -1,1 +1,1 @@
-database:"spring.datasource.url=jdbc:mysql://localhost:3306/chamado-prd?useTimezone=true&serverTimezone=UTC"
+database : "jdbc:mysql://localhost:3306/chamado?useTimezone=true&serverTimezone=UTC"

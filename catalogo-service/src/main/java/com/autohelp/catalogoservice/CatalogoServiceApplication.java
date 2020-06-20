@@ -8,8 +8,6 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 @SpringBootApplication
 public class CatalogoServiceApplication {
 
-	
-
 	public static void main(String[] args) {
 		SpringApplication.run(CatalogoServiceApplication.class, args);
 	}
