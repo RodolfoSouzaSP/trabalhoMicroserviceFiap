@@ -1,9 +1,9 @@
 PRÁTICA DE CONCLUSÃO DA DISCIPLINA
 MICROSERVICES ARCHITECTURE / API / CONTAINERS
 
-MARCIO ROBERTO SANTOS DE LIMA – RM 336494
-RODOLFO TOMÉ DE SOUZA – RM 336344
-SIDNEI APARECIDO DOS REIS – RM 335312
+MARCIO ROBERTO SANTOS DE LIMA – RM 336494 
+RODOLFO TOMÉ DE SOUZA – RM 336344 
+SIDNEI APARECIDO DOS REIS – RM 335312 
 VITOR ROBERTO DA SILVA – RM 336199
 
 
@@ -38,12 +38,11 @@ eurekaserver: (porta: 8761)
 ConfigServer: (porta: 8888)
 
 Foram trabalhados os conceitos:
+
 	* Gerenciamento de configuração
 	* Resiliência
 	* Service-discovery
 	* Data-Management
 	* Swagger
 
-O código fonte pode ser baixado no GITHUB: https://github.com/vroberto83/trabalhoMicroserviceFiap/tree/v1
-
-As imagens pode ser vistas no arquivo instruções.docx
+As imagens podem ser vistas no arquivo instrucoes.docx ou instrucoes.pdf
