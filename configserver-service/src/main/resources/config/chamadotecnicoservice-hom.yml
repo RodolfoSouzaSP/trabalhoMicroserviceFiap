@@ -1,0 +1,1 @@
+database : "jdbc:mysql://localhost:3306/chamado-hom?useTimezone=true&serverTimezone=UTC"

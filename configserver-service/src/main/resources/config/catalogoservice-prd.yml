@@ -1,0 +1,1 @@
+database : "jdbc:mysql://localhost:3306/catalogo?useTimezone=true&serverTimezone=UTC"
